@@ -78,7 +78,7 @@ type RegistrationProps = {
 }
 
 export function TabRegistration(props: RegistrationProps) {
-	const [challenge, setChallenge] = useState<Uint8Array>(
+	const [challenge, _setChallenge] = useState<Uint8Array>(
 		crypto.getRandomValues(new Uint8Array(16)),
 	)
 
