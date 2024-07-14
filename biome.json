@@ -13,7 +13,8 @@
 					"level": "warn",
 					"options": { "strictCase": false }
 				},
-				"noImplicitBoolean": "off"
+				"noImplicitBoolean": "off",
+				"useBlockStatements": "off"
 			}
 		}
 	},

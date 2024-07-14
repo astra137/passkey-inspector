@@ -1,4 +1,4 @@
-import type { RegistrationPublicKeyCredential } from '@github/webauthn-json/browser-ponyfill'
+import type { PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json'
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useState } from 'react'
@@ -10,12 +10,12 @@ import { button } from './components/style.ts'
 
 export function App() {
 	const [credential, saveCredential] = useLocalStorage<
-		RegistrationPublicKeyCredential | undefined
+		PublicKeyCredentialWithAttestationJSON | undefined
 	>('key')
 
 	const [selectedIndex, setSelectedIndex] = useState(credential ? 1 : 0)
 
-	function setCredential(x: RegistrationPublicKeyCredential) {
+	function setCredential(x: PublicKeyCredentialWithAttestationJSON) {
 		saveCredential(x)
 		setSelectedIndex(1)
 	}
@@ -57,10 +57,14 @@ export function App() {
 						/>
 					</TabPanel>
 					<TabPanel>
-						<TabAttestation
-							credential={credential}
-							clearCredential={clearCredential}
-						/>
+						{credential ? (
+							<TabAttestation
+								credential={credential}
+								clearCredential={clearCredential}
+							/>
+						) : (
+							<></>
+						)}
 					</TabPanel>
 					<TabPanel>Not implemented</TabPanel>
 					<TabPanel>Not implemented</TabPanel>

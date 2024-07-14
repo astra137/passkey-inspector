@@ -30,9 +30,10 @@ export default defineConfig({
 	outdir: 'styled-system',
 
 	globalCss: defineGlobalStyles({
-		html: {
+		':root': {
 			bg: 'black',
 			color: 'gray.300',
+			colorScheme: 'dark',
 		},
 	}),
 })

@@ -1,7 +1,5 @@
-import {
-	type RegistrationPublicKeyCredential,
-	create,
-} from '@github/webauthn-json/browser-ponyfill'
+import type { PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-json'
+import { create } from '@github/webauthn-json/browser-ponyfill'
 import {
 	Button,
 	Description,
@@ -73,8 +71,8 @@ const RadioCheck = () => {
 }
 
 type RegistrationProps = {
-	credential?: RegistrationPublicKeyCredential
-	setCredential: (x: RegistrationPublicKeyCredential) => void
+	credential?: PublicKeyCredentialWithAttestationJSON
+	setCredential: (x: PublicKeyCredentialWithAttestationJSON) => void
 }
 
 export function TabRegistration(props: RegistrationProps) {
@@ -126,7 +124,7 @@ export function TabRegistration(props: RegistrationProps) {
 		const ac = new AbortController()
 		setError(null)
 		create({ publicKey, signal: ac.signal })
-			.then(key => props.setCredential(key))
+			.then(key => props.setCredential(key.toJSON()))
 			.catch(err => setError(err))
 	}
 
