@@ -15,6 +15,12 @@
 				},
 				"noImplicitBoolean": "off",
 				"useBlockStatements": "off"
+			},
+			"correctness": {
+				"noUnusedImports": {
+					"fix": "none",
+					"level": "warn"
+				}
 			}
 		}
 	},
