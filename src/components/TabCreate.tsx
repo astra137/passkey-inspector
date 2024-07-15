@@ -75,7 +75,7 @@ type RegistrationProps = {
 	setCredential: (x: PublicKeyCredentialWithAttestationJSON) => void
 }
 
-export function TabRegistration(props: RegistrationProps) {
+export function TabCreate(props: RegistrationProps) {
 	const [challenge, _setChallenge] = useState<Uint8Array>(
 		crypto.getRandomValues(new Uint8Array(16)),
 	)
@@ -121,8 +121,8 @@ export function TabRegistration(props: RegistrationProps) {
 	const [error, setError] = useState<Error | null>(null)
 
 	function startCreateKey() {
+		// TODO: useEffect and aborting
 		const ac = new AbortController()
-		setError(null)
 		create({ publicKey, signal: ac.signal })
 			.then(key => props.setCredential(key.toJSON()))
 			.catch(err => setError(err))
@@ -299,80 +299,68 @@ export function TabRegistration(props: RegistrationProps) {
 				<Button onClick={startCreateKey} className={button()}>
 					Create key
 				</Button>
+			</div>
 
-				<Dialog
-					open={!!error}
-					onClose={() => setError(null)}
-					className={css({ position: 'relative', zIndex: 50 })}
+			<div className={css(container.raw(), { maxW: '3xl', p: 'md' })}>
+				<JsonBlock data={publicKey} />
+			</div>
+
+			<Dialog
+				open={!!error}
+				onClose={() => setError(null)}
+				className={css({ position: 'relative', zIndex: 50 })}
+			>
+				<div
+					className={css({
+						position: 'fixed',
+						display: 'flex',
+						w: 'screen',
+						h: 'screen',
+						top: 0,
+						bottom: 0,
+						left: 0,
+						right: 0,
+						alignItems: 'center',
+						justifyContent: 'center',
+						bg: 'black/80',
+						backdropFilter: 'auto',
+						backdropBlur: 'sm',
+					})}
 				>
-					<div
+					<DialogPanel
 						className={css({
-							position: 'fixed',
+							borderRadius: 'md',
+							borderColor: 'white/10',
+							borderStyle: 'solid',
+							borderWidth: '1px',
+							bg: 'black',
+							p: 'md',
 							display: 'flex',
-							w: 'screen',
-							h: 'screen',
-							top: 0,
-							bottom: 0,
-							left: 0,
-							right: 0,
-							alignItems: 'center',
-							justifyContent: 'center',
-							bg: 'black/80',
-							backdropFilter: 'auto',
-							backdropBlur: 'sm',
+							flexDir: 'column',
+							gap: 'md',
+							maxW: 'xl',
 						})}
 					>
-						<DialogPanel
-							className={css({
-								borderRadius: 'md',
-								borderColor: 'white/10',
-								borderStyle: 'solid',
-								borderWidth: '1px',
-								bg: 'black',
-								p: 'md',
-								display: 'flex',
-								flexDir: 'column',
-								gap: 'md',
-								maxW: 'xl',
-							})}
+						<DialogTitle className={css({ fontSize: 'xl' })}>
+							Operation failed
+						</DialogTitle>
+						<Description>
+							An error was caught while calling the WebAuthn API.
+						</Description>
+						<output
+							className={css({ color: 'red.500', fontFamily: 'monospace' })}
 						>
-							<DialogTitle className={css({ fontSize: 'xl' })}>
-								Operation failed
-							</DialogTitle>
-							<Description>
-								An error was caught while calling the WebAuthn API.
-							</Description>
-							<output
-								className={css({ color: 'red.500', fontFamily: 'monospace' })}
-							>
-								{String(error)}
-							</output>
-							<p className={css({ color: 'neutral.500' })}>
-								More details logged to console.
-							</p>
-							<Button onClick={() => setError(null)} className={button()}>
-								Close
-							</Button>
-						</DialogPanel>
-					</div>
-				</Dialog>
-			</div>
-
-			<div
-				className={css(container.raw(), {
-					maxW: '3xl',
-					p: 'md',
-				})}
-			>
-				<JsonBlock
-					data={publicKey}
-					className={css(bordered, {
-						p: 'sm',
-						color: 'neutral.500',
-						overflowX: 'auto',
-					})}
-				/>
-			</div>
+							{String(error)}
+						</output>
+						<p className={css({ color: 'neutral.500' })}>
+							More details logged to console.
+						</p>
+						<Button onClick={() => setError(null)} className={button()}>
+							Close
+						</Button>
+					</DialogPanel>
+				</div>
+			</Dialog>
 		</>
 	)
 }

@@ -28,7 +28,6 @@ export interface AuthenticatorData {
 		aaguid: Uint8Array
 		credentialId: Uint8Array
 		credentialPublicKey: Map<unknown, unknown>
-		alg: number
 	}
 	extensions?: Map<unknown, unknown>
 }
@@ -36,5 +35,5 @@ export interface AuthenticatorData {
 export type AttestationObject = {
 	fmt: string
 	attStmt: Uint8Array
-	authData: AuthenticatorData
+	authData: Uint8Array
 }

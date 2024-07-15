@@ -1,4 +1,6 @@
 import { uint8ArrayToHex } from 'uint8array-extras'
+import { css } from '../../styled-system/css'
+import { bordered } from './style'
 
 function replacer(_key: string, value: unknown) {
 	if (value instanceof Uint8Array) {
@@ -14,13 +16,18 @@ function replacer(_key: string, value: unknown) {
 
 type Props<T> = {
 	data: T
-	className?: string
 }
 
 export function JsonBlock<T>(props: Props<T>) {
 	const json = JSON.stringify(props.data, replacer, '\t')
 	return (
-		<pre className={props.className}>
+		<pre
+			className={css(bordered, {
+				p: 'sm',
+				color: 'neutral.500',
+				overflowX: 'auto',
+			})}
+		>
 			<code>{json}</code>
 		</pre>
 	)

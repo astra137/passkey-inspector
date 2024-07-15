@@ -4,8 +4,8 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 import { useState } from 'react'
 import { css } from '../styled-system/css'
 import { PWABadge } from './PWABadge.tsx'
-import { TabAttestation } from './components/TabAttestation.tsx'
-import { TabRegistration } from './components/TabRegistration.tsx'
+import { TabCreate } from './components/TabCreate.tsx'
+import { TabInspect } from './components/TabInspect.tsx'
 import { button } from './components/style.ts'
 
 export function App() {
@@ -18,11 +18,6 @@ export function App() {
 	function setCredential(x: PublicKeyCredentialWithAttestationJSON) {
 		saveCredential(x)
 		setSelectedIndex(1)
-	}
-
-	function clearCredential() {
-		saveCredential(undefined)
-		setSelectedIndex(0)
 	}
 
 	return (
@@ -40,7 +35,7 @@ export function App() {
 				>
 					<Tab className={button({ selectable: true })}>Create</Tab>
 					<Tab className={button({ selectable: true })} disabled={!credential}>
-						Attestation
+						Inspect
 					</Tab>
 					<Tab className={button({ selectable: true })} disabled>
 						Metadata
@@ -51,20 +46,10 @@ export function App() {
 				</TabList>
 				<TabPanels className={css({ padding: 'md' })}>
 					<TabPanel>
-						<TabRegistration
-							credential={credential}
-							setCredential={setCredential}
-						/>
+						<TabCreate credential={credential} setCredential={setCredential} />
 					</TabPanel>
 					<TabPanel>
-						{credential ? (
-							<TabAttestation
-								credential={credential}
-								clearCredential={clearCredential}
-							/>
-						) : (
-							<></>
-						)}
+						{credential ? <TabInspect credential={credential} /> : <></>}
 					</TabPanel>
 					<TabPanel>Not implemented</TabPanel>
 					<TabPanel>Not implemented</TabPanel>
