@@ -6,6 +6,7 @@ import { useRegisterSW } from 'virtual:pwa-register/react'
 import { css } from '../styled-system/css'
 import { TabCreate } from './components/TabCreate.tsx'
 import { TabInspect } from './components/TabInspect.tsx'
+import { TabMetadata } from './components/TabMetadata.tsx'
 import { button } from './components/style.ts'
 
 export function App() {
@@ -38,11 +39,8 @@ export function App() {
 					<Tab className={button({ selectable: true })} disabled={!credential}>
 						Inspect
 					</Tab>
-					<Tab className={button({ selectable: true })} disabled>
+					<Tab className={button({ selectable: true })} disabled={!credential}>
 						Metadata
-					</Tab>
-					<Tab className={button({ selectable: true })} disabled>
-						Assertion
 					</Tab>
 				</TabList>
 				<TabPanels className={css({ padding: 'md' })}>
@@ -52,8 +50,9 @@ export function App() {
 					<TabPanel>
 						{credential ? <TabInspect credential={credential} /> : <></>}
 					</TabPanel>
-					<TabPanel>Not implemented</TabPanel>
-					<TabPanel>Not implemented</TabPanel>
+					<TabPanel>
+						{credential ? <TabMetadata credential={credential} /> : <></>}
+					</TabPanel>
 				</TabPanels>
 			</TabGroup>
 		</>
