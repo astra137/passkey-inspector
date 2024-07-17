@@ -124,8 +124,8 @@ export function TabCreate(props: RegistrationProps) {
 		// TODO: useEffect and aborting
 		const ac = new AbortController()
 		create({ publicKey, signal: ac.signal })
-			.then(key => props.setCredential(key.toJSON()))
-			.catch(err => setError(err))
+			.then((key) => props.setCredential(key.toJSON()))
+			.catch((err) => setError(err))
 	}
 
 	return (

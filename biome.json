@@ -31,8 +31,7 @@
 	"javascript": {
 		"formatter": {
 			"semicolons": "asNeeded",
-			"quoteStyle": "single",
-			"arrowParentheses": "asNeeded"
+			"quoteStyle": "single"
 		}
 	}
 }

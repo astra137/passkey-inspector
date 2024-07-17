@@ -7,5 +7,5 @@ import './index.css'
 reactDom.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<App />
-	</React.StrictMode>
+	</React.StrictMode>,
 )
