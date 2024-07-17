@@ -2,13 +2,15 @@ import type { PublicKeyCredentialWithAttestationJSON } from '@github/webauthn-js
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { useState } from 'react'
+import { useRegisterSW } from 'virtual:pwa-register/react'
 import { css } from '../styled-system/css'
-import { PWABadge } from './PWABadge.tsx'
 import { TabCreate } from './components/TabCreate.tsx'
 import { TabInspect } from './components/TabInspect.tsx'
 import { button } from './components/style.ts'
 
 export function App() {
+	useRegisterSW({ immediate: true })
+
 	const [credential, saveCredential] = useLocalStorage<
 		PublicKeyCredentialWithAttestationJSON | undefined
 	>('key')
@@ -22,7 +24,6 @@ export function App() {
 
 	return (
 		<>
-			<PWABadge />
 			<TabGroup selectedIndex={selectedIndex} onChange={setSelectedIndex}>
 				<TabList
 					className={css({
